@@ -8,6 +8,16 @@ class Character:
         self.name = name
         self.current_life_point = self.max_hp
 
+    def clash_verification(self, hp, dice_value, defend_dice):
+        print("Hp = " + str(hp))
+        print("attack " + str(dice_value))
+        print("defend " + str(defend_dice))
+        if dice_value > defend_dice:
+            hp -= dice_value
+            print("Hp -" + str(dice_value))
+        print("Current hp = " + str(hp))
+        print("##################")
+
 
 class Warrior(Character):
     chara_class = "warrior"
@@ -40,14 +50,7 @@ class Warrior(Character):
             defend_dice = random.randint(1, self.magic)
         else:
             defend_dice = random.randint(1, self.bow)
-        print("Hp = " + str(hp))
-        print("attack " + str(dice_value))
-        print("defend " + str(defend_dice))
-        if dice_value > defend_dice:
-            hp -= dice_value
-            print("Hp -" + str(dice_value))
-        print("Current hp = " + str(hp))
-        print("##################")
+        Warrior.clash_verification(self, hp, dice_value, defend_dice)
 
 
 class Wizard(Character):
@@ -81,14 +84,7 @@ class Wizard(Character):
             defend_dice = random.randint(1, self.magic)
         else:
             defend_dice = random.randint(1, self.bow)
-        print("Hp = " + str(hp))
-        print("attack " + str(dice_value))
-        print("defend " + str(defend_dice))
-        if dice_value > defend_dice:
-            hp -= dice_value
-            print("Hp -" + str(dice_value))
-        print("Current hp = " + str(hp))
-        print("##################")
+        Wizard.clash_verification(self, hp, dice_value, defend_dice)
 
 
 class Archer(Character):
@@ -122,14 +118,7 @@ class Archer(Character):
             defend_dice = random.randint(1, self.magic)
         else:
             defend_dice = random.randint(1, self.bow)
-        print("Hp = " + str(hp))
-        print("attack " + str(dice_value))
-        print("defend " + str(defend_dice))
-        if dice_value > defend_dice:
-            hp -= dice_value
-            print("Hp -" + str(dice_value))
-        print("Current hp = " + str(hp))
-        print("##################")
+        Archer.clash_verification(self, hp, dice_value, defend_dice)
 
 
 gimli = Warrior("Gimli")
