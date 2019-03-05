@@ -1,7 +1,14 @@
 import random
+print("############################")
+print(" Welcome to Clash Of Class!")
+print("############################")
 
 
 class Character:
+    sword_dice = 0
+    magic_dice = 0
+    bow_dice = 0
+    max_hp = 12
 
     def __init__(self, name):
         self.name = name
@@ -10,42 +17,48 @@ class Character:
     def __str__(self):
         return "{} the {}.".format(self.name, self.__class__.__name__)
 
-    def clash_verification(self, hp, dice_value, defend_dice):
-        print("Hp = " + str(hp))
-        print("attack " + str(dice_value))
-        print("defend " + str(defend_dice))
+    def attack_gen(self):
+        if self.sword_dice >= self.magic_dice and self.sword_dice >= self.bow_dice:
+            print("attack with sword")
+            arm = "sword"
+            return arm, self.sword_dice
+        elif self.bow_dice >= self.sword_dice and self.bow_dice >= self.magic_dice:
+            print("attack with bow")
+            arm = "bow"
+            return arm, self.bow_dice
+        elif self.magic_dice >= self.sword_dice and self.magic_dice >= self.bow_dice:
+            print("attack with magic")
+            arm = "magic"
+            return arm, self.magic_dice
+
+    def clash_verification(self, hp, dice_value, defend_dice, arm):
+        print("Current HP = " + str(hp))
+        print("attacker " + str(dice_value))
+        print("defender " + str(defend_dice))
         if dice_value > defend_dice:
             hp -= dice_value
-            print("Hp -" + str(dice_value))
-        print("Current hp = " + str(hp))
-        print("##################")
+            print("Deals " + str(dice_value) + " " + arm + " damage")
+        else:
+            print("defense success")
+        if hp <= 0:
+            print("dead")
+        else:
+            print("Current hp = " + str(hp))
+        print("############################")
         return hp
 
 
 class Warrior(Character):
-    chara_class = "warrior"
     max_hp = 16
-    current_life_point = max_hp
     sword = 12
     magic = 8
     bow = 10
 
     def attack(self):
-        sword_dice = random.randint(1, self.sword)
-        magic_dice = random.randint(1, self.magic)
-        bow_dice = random.randint(1, self.bow)
-        if sword_dice >= magic_dice and sword_dice >= bow_dice:
-            print("attack with sword")
-            arm = "sword"
-            return arm, sword_dice
-        elif bow_dice >= sword_dice and bow_dice >= magic_dice:
-            print("attack with bow")
-            arm = "bow"
-            return arm, bow_dice
-        elif magic_dice >= sword_dice and magic_dice >= bow_dice:
-            print("attack with magic")
-            arm = "magic"
-            return arm, magic_dice
+        self.sword_dice = random.randint(1, self.sword)
+        self.magic_dice = random.randint(1, self.magic)
+        self.bow_dice = random.randint(1, self.bow)
+        return self.attack_gen()
 
     def defend(self, arm, dice_value):
         if arm == "sword":
@@ -54,33 +67,21 @@ class Warrior(Character):
             defend_dice = random.randint(1, self.magic)
         else:
             defend_dice = random.randint(1, self.bow)
-        Warrior.current_life_point = Warrior.clash_verification(self, self.current_life_point, dice_value, defend_dice)
+        self.current_life_point = self.clash_verification(self.current_life_point, dice_value, defend_dice, arm)
 
 
 class Wizard(Character):
-    chara_class = "wizard"
-    max_hp = 12
-    current_life_point = max_hp
     sword = 8
     magic = 12
     bow = 10
 
     def attack(self):
-        sword_dice = random.randint(1, self.sword)
-        magic_dice = random.randint(1, self.magic)
-        bow_dice = random.randint(1, self.bow)
-        if magic_dice >= sword_dice and magic_dice >= bow_dice:
-            print("attack with magic")
-            arm = "magic"
-            return arm, magic_dice
-        elif bow_dice >= sword_dice and bow_dice >= magic_dice:
-            print("attack with bow")
-            arm = "bow"
-            return arm, bow_dice
-        elif sword_dice >= magic_dice and sword_dice >= bow_dice:
-            print("attack with sword")
-            arm = "sword"
-            return arm, sword_dice
+        self.sword_dice = random.randint(1, self.sword)
+        magic_dice1 = random.randint(1, self.magic)
+        magic_dice2 = random.randint(1, self.magic)
+        self.magic_dice = max(magic_dice1, magic_dice2)
+        self.bow_dice = random.randint(1, self.bow)
+        return self.attack_gen()
 
     def defend(self, arm, dice_value):
         if arm == "sword":
@@ -89,33 +90,22 @@ class Wizard(Character):
             defend_dice = random.randint(1, self.magic)
         else:
             defend_dice = random.randint(1, self.bow)
-        Wizard.current_life_point = Wizard.clash_verification(self, self.current_life_point, dice_value, defend_dice)
+        self.current_life_point = self.clash_verification(self.current_life_point, dice_value, defend_dice, arm)
 
 
 class Archer(Character):
-    chara_class = "archer"
-    max_hp = 12
-    current_life_point = max_hp
     sword = 10
     magic = 8
     bow = 12
 
     def attack(self):
-        sword_dice = random.randint(1, self.sword)
-        magic_dice = random.randint(1, self.magic)
-        bow_dice = random.randint(1, self.bow)
-        if bow_dice >= sword_dice and bow_dice >= magic_dice:
-            print("attack with bow")
-            arm = "bow"
-            return arm, bow_dice
-        elif sword_dice >= magic_dice and sword_dice >= bow_dice:
-            print("attack with sword")
-            arm = "sword"
-            return arm, sword_dice
-        elif magic_dice >= sword_dice and magic_dice >= bow_dice:
-            print("attack with magic")
-            arm = "magic"
-            return arm, magic_dice
+        self.sword_dice = random.randint(1, self.sword)
+        self.magic_dice = random.randint(1, self.magic)
+        self.bow_dice = random.randint(1, self.bow)
+        arm, dice_value = self.attack_gen()
+        if arm == "sword" or arm == "magic":
+            dice_value += 1
+        return arm, dice_value
 
     def defend(self, arm, dice_value):
         if arm == "sword":
@@ -124,7 +114,7 @@ class Archer(Character):
             defend_dice = random.randint(1, self.magic)
         else:
             defend_dice = random.randint(1, self.bow)
-        Archer.current_life_point = Archer.clash_verification(self, self.current_life_point, dice_value, defend_dice)
+        self.current_life_point = self.clash_verification(self.current_life_point, dice_value, defend_dice, arm)
 
 
 gimli = Warrior("Gimli")
@@ -145,4 +135,3 @@ gimli.defend(arm, dice_value)
 print(legolas)
 arm, dice_value = legolas.attack()
 gandalf.defend(arm, dice_value)
-
