@@ -11,7 +11,7 @@ class Character:
         self.name = name
         self.current_life_point = self.max_hp
 
-    def __str__(self):
+    def __repr__(self):
         return "|{} the {}".format(self.name, self.__class__.__name__)
 
     def _attack_gen(self):
@@ -105,21 +105,21 @@ class Archer(Character):
         return arm, dice_value
 
 
-gimli = Warrior("Gimli")
-legolas = Archer("Legolas")
-gandalf = Wizard("Gandalf")
-
-# Attack 1: gimli attack legolas
-print(gimli)
-arm, dice_value = gimli.attack()
-legolas.defend(arm, dice_value)
-
-# Attack 2: gandalf attack gimli
-print(gandalf)
-arm, dice_value = gandalf.attack()
-gimli.defend(arm, dice_value)
-
-# Attack 3: legolas attack gandalf
-print(legolas)
-arm, dice_value = legolas.attack()
-gandalf.defend(arm, dice_value)
+# gimli = Warrior("Gimli")
+# legolas = Archer("Legolas")
+# gandalf = Wizard("Gandalf")
+#
+# # Attack 1: gimli attack legolas
+# print(gimli)
+# arm, dice_value = gimli.attack()
+# legolas.defend(arm, dice_value)
+#
+# # Attack 2: gandalf attack gimli
+# print(gandalf)
+# arm, dice_value = gandalf.attack()
+# gimli.defend(arm, dice_value)
+#
+# # Attack 3: legolas attack gandalf
+# print(legolas)
+# arm, dice_value = legolas.attack()
+# gandalf.defend(arm, dice_value)
