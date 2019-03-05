@@ -1,7 +1,7 @@
 import random
-print("############################")
-print(" Welcome to Clash Of Class!")
-print("############################")
+print("|############################>")
+print("| Welcome to Clash Of Class!")
+print("|############################>")
 
 
 class Character:
@@ -15,36 +15,37 @@ class Character:
         self.current_life_point = self.max_hp
 
     def __str__(self):
-        return "{} the {}.".format(self.name, self.__class__.__name__)
+        return "|{} the {}".format(self.name, self.__class__.__name__)
 
     def attack_gen(self):
         if self.sword_dice >= self.magic_dice and self.sword_dice >= self.bow_dice:
-            print("attack with sword")
+            print("|attack with sword")
             arm = "sword"
             return arm, self.sword_dice
         elif self.bow_dice >= self.sword_dice and self.bow_dice >= self.magic_dice:
-            print("attack with bow")
+            print("|attack with bow")
             arm = "bow"
             return arm, self.bow_dice
         elif self.magic_dice >= self.sword_dice and self.magic_dice >= self.bow_dice:
-            print("attack with magic")
+            print("|attack with magic")
             arm = "magic"
             return arm, self.magic_dice
 
     def clash_verification(self, hp, dice_value, defend_dice, arm):
-        print("Current HP = " + str(hp))
-        print("attacker " + str(dice_value))
-        print("defender " + str(defend_dice))
+        print("|{} the {}".format(self.name, self.__class__.__name__))
+        print("|" + self.name + " Current HP = " + str(hp))
+        print("|attacker " + str(dice_value))
+        print("|defender " + str(defend_dice))
         if dice_value > defend_dice:
             hp -= dice_value
-            print("Deals " + str(dice_value) + " " + arm + " damage")
+            print("|Deals " + str(dice_value) + " " + arm + " damage")
         else:
-            print("defense success")
+            print("|defense success")
         if hp <= 0:
-            print("dead")
+            print("|Dead")
         else:
-            print("Current hp = " + str(hp))
-        print("############################")
+            print("|" + self.name + " HP = " + str(hp))
+        print("|############################>")
         return hp
 
 
