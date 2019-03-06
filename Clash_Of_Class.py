@@ -10,9 +10,32 @@ class Character:
     def __init__(self, name):
         self.name = name
         self.current_life_point = self.max_hp
+        self._height = random.randint(170, 190)
+        self._weight = random.randint(70, 90)
+        self.new_height = self._height / 2
+        self.new_weight = self._weight / 2
 
     def __repr__(self):
         return "|{} the {}".format(self.name, self.__class__.__name__)
+
+    def _get_height(self):
+        print("|height = {}".format(self._height))
+        return self._height
+
+    def _set_height(self, new_height):
+        print("|new height = {}".format(new_height))
+        self._height = new_height
+
+    def _get_weight(self):
+        print("|weight = {}".format(self._weight))
+        return self._weight
+
+    def _set_weight(self, new_weight):
+        print("|weight = {}".format(new_weight))
+        self._weight = new_weight
+
+    height = property(_get_height, _set_height)
+    weight = property(_get_weight, _set_weight)
 
     def _attack_gen(self):
         if self.current_life_point <= 0:
@@ -51,8 +74,8 @@ class Character:
         print("|attacker " + str(dice_value))
         print("|defender " + str(defend_dice))
         if dice_value > defend_dice:
-            hp -= dice_value
-            print("|Dealed " + str(dice_value) + " " + arm + " damage")
+            hp -= dice_value - defend_dice
+            print("|Dealed " + str(dice_value - defend_dice) + " " + arm + " damage")
         else:
             print("|defense success")
         if hp <= 0:
@@ -73,7 +96,12 @@ class Warrior(Character):
         self.sword_dice = random.randint(1, self.sword)
         self.magic_dice = random.randint(1, self.magic)
         self.bow_dice = random.randint(1, self.bow)
-        return self._attack_gen()
+        arm, dice_value = self._attack_gen()
+        if arm == "magic":
+            dice_value += self.weight // 30
+        elif arm == "bow":
+            dice_value += (self.height - 170) % 3
+        return arm, dice_value
 
 
 class Wizard(Character):
@@ -87,7 +115,12 @@ class Wizard(Character):
         magic_dice2 = random.randint(1, self.magic)
         self.magic_dice = max(magic_dice1, magic_dice2)
         self.bow_dice = random.randint(1, self.bow)
-        return self._attack_gen()
+        arm, dice_value = self._attack_gen()
+        if arm == "sword":
+            dice_value += (self.weight + self.height) // 40
+        elif arm == "bow":
+            dice_value += (self.height - 170) % 3
+        return arm, dice_value
 
 
 class Archer(Character):
@@ -100,26 +133,46 @@ class Archer(Character):
         self.magic_dice = random.randint(1, self.magic)
         self.bow_dice = random.randint(1, self.bow)
         arm, dice_value = self._attack_gen()
-        if arm == "sword" or arm == "magic":
-            dice_value += 1
+        if arm == "sword":
+            dice_value += (self.height // 40) + 1
+        elif arm == "magic":
+            dice_value += (self.weight // 20) + 1
         return arm, dice_value
 
 
-# gimli = Warrior("Gimli")
-# legolas = Archer("Legolas")
-# gandalf = Wizard("Gandalf")
-#
-# # Attack 1: gimli attack legolas
-# print(gimli)
-# arm, dice_value = gimli.attack()
-# legolas.defend(arm, dice_value)
-#
-# # Attack 2: gandalf attack gimli
-# print(gandalf)
-# arm, dice_value = gandalf.attack()
-# gimli.defend(arm, dice_value)
-#
-# # Attack 3: legolas attack gandalf
+gimli = Warrior("Gimli")
+legolas = Archer("Legolas")
+gandalf = Wizard("Gandalf")
+
+# Attack 1: gimli attack legolas
+print(gimli)
+if gimli.current_life_point <= 0:
+    print("|*DEAD*")
+else:
+    arm, dice_value = gimli.attack()
+    legolas.defend(arm, dice_value)
+# # Attack 2: legolas attack gandalf
 # print(legolas)
-# arm, dice_value = legolas.attack()
-# gandalf.defend(arm, dice_value)
+# if legolas.current_life_point <= 0:
+#     print("|*DEAD*")
+# else:
+#     arm, dice_value = legolas.attack()
+#     gandalf.defend(arm, dice_value)
+# # Attack 3: gandalf attack gimli
+# print(gandalf)
+# if gandalf.current_life_point <= 0:
+#     print("|*DEAD*")
+# else:
+#     arm, dice_value = gandalf.attack()
+#     gimli.defend(arm, dice_value)
+
+print(gimli)
+a = gimli.height
+b = gimli.weight
+print(legolas)
+c = legolas.height
+d = legolas.weight
+print(gandalf)
+e = gandalf.height
+f = gandalf.weight
+
