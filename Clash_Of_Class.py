@@ -151,20 +151,20 @@ if gimli.current_life_point <= 0:
 else:
     arm, dice_value = gimli.attack()
     legolas.defend(arm, dice_value)
-# # Attack 2: legolas attack gandalf
-# print(legolas)
-# if legolas.current_life_point <= 0:
-#     print("|*DEAD*")
-# else:
-#     arm, dice_value = legolas.attack()
-#     gandalf.defend(arm, dice_value)
-# # Attack 3: gandalf attack gimli
-# print(gandalf)
-# if gandalf.current_life_point <= 0:
-#     print("|*DEAD*")
-# else:
-#     arm, dice_value = gandalf.attack()
-#     gimli.defend(arm, dice_value)
+# Attack 2: legolas attack gandalf
+print(legolas)
+if legolas.current_life_point <= 0:
+    print("|*DEAD*")
+else:
+    arm, dice_value = legolas.attack()
+    gandalf.defend(arm, dice_value)
+# Attack 3: gandalf attack gimli
+print(gandalf)
+if gandalf.current_life_point <= 0:
+    print("|*DEAD*")
+else:
+    arm, dice_value = gandalf.attack()
+    gimli.defend(arm, dice_value)
 
 print(gimli)
 a = gimli.height
